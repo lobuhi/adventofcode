@@ -61,30 +61,5 @@ echo "Total priority: $total_priority"
 ### Day 3 #2
 
 ```bash
-#!/bin/bash
-
-FILENAME="day3.input"
-
-LINE_NUM=1
-
-NUM_LINES=3
-
-total_priority=0
-
-while read line1; read line2; read line3; do
-  char=$(tr -d -c "$line1" <<< "$line2" | tr -d -c "$line3" | fold -w1 | sort | uniq | tr -d '\n')
-
-  if [[ "$char" =~ [a-z] ]]; then
-      total_priority=$((total_priority + 1 + $(printf "%d" "'$char") - $(printf "%d" "'a") ))
-  elif [[ "$char" =~ [A-Z] ]]; then
-      total_priority=$((total_priority + 27 + $(printf "%d" "'$char") - $(printf "%d" "'A") ))
-  fi
-
-  total_priority=$((total_priority+priority))
-
-
-  LINE_NUM=$((LINE_NUM+NUM_LINES))
-done < "$FILENAME"
-
-echo "Total priority: $total_priority"
+FILENAME="day3.input" && LINE_NUM=1 && NUM_LINES=3 && total_priority=0 && while read line1; read line2; read line3; do char=$(tr -d -c "$line1" <<< "$line2" | tr -d -c "$line3" | fold -w1 | sort | uniq | tr -d '\n') && if [[ "$char" =~ [a-z] ]]; then total_priority=$((total_priority + 1 + $(printf "%d" "'$char") - $(printf "%d" "'a") )) && elif [[ "$char" =~ [A-Z] ]]; then total_priority=$((total_priority + 27 + $(printf "%d" "'$char") - $(printf "%d" "'A") )) && fi && total_priority=$((total_priority+priority)) && LINE_NUM=$((LINE_NUM+NUM_LINES)) && done < "$FILENAME" && echo "Total priority: $total_priority"
 ```
