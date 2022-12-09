@@ -23,3 +23,37 @@ result=0; while read line; do if [[ $line == "B X" ]]; then result=$((result+1))
 ```bash
 result=0; while read line; do if [[ $line == "A X" ]]; then result=$((result+3)); fi; if [[ $line == "A Y" ]]; then result=$((result+4)); fi; if [[ $line == "A Z" ]]; then result=$((result+8)); fi; if [[ $line == "B X" ]]; then result=$((result+1)); fi; if [[ $line == "B Y" ]]; then result=$((result+5)); fi; if [[ $line == "B Z" ]]; then result=$((result+9)); fi; if [[ $line == "C X" ]]; then result=$((result+2)); fi; if [[ $line == "C Y" ]]; then result=$((result+6)); fi; if [[ $line == "C Z" ]]; then result=$((result+7)); fi; done < day2.input; echo $result
 ```
+### Day 3 #1
+
+```bash
+#!/bin/bash
+
+split_string() {
+  len=${#1}
+
+  mid=$((len / 2))
+
+  first=$(echo "$1" | cut -c -$mid)
+  second=$(echo "$1" | cut -c $(($mid+1))-$len)
+}
+
+total_priority=0
+
+while read line; do
+  split_string "$line"
+
+  common=$(tr -d -c "$second" <<< "$first" | fold -w1 | sort | uniq | tr -d '\n')
+
+  for (( i=0; i<${#common}; i++ )); do
+    char="${common:$i:1}"
+    if [[ "$char" =~ [a-z] ]]; then
+      total_priority=$((total_priority + 1 + $(printf "%d" "'$char") - $(printf "%d" "'a") ))
+    elif [[ "$char" =~ [A-Z] ]]; then
+      total_priority=$((total_priority + 27 + $(printf "%d" "'$char") - $(printf "%d" "'A") ))
+    fi
+   
+  done
+done <day3.input
+
+echo "Total priority: $total_priority"
+```
